@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mississippi Real Estate Course</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e120f;--panel:#161d18;--panel2:#1b241d;--hover:#202a22;--text:#ece5d3;--dim:#9aa393;--faint:#6b7367;--gold:#b98b3e;--gold2:#d9a94f;--border:#2a332b;--good:#5a9c6e;--bad:#c0604a;--warn:#c9a24a;--fd:'Fraunces',serif;--fb:'Inter',sans-serif;--fm:'IBM Plex Mono',monospace}
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--fb);-webkit-font-smoothing:antialiased;padding-bottom:70px;line-height:1.55}
+.wrap{max-width:720px;margin:0 auto;padding:22px 16px 0}
+.eyebrow{font-family:var(--fm);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;margin:0 0 6px}
+h1{font-family:var(--fd);font-weight:600;font-size:28px;line-height:1.15;margin:0 0 6px}
+h2{font-family:var(--fd);font-weight:600;font-size:21px;margin:22px 0 8px}
+h3{font-family:var(--fd);font-weight:600;font-size:17px;margin:18px 0 6px;color:var(--gold2)}
+p{margin:0 0 12px;font-size:15px}
+.sub{color:var(--dim);font-size:14px;margin:0 0 18px}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#0b0f0c;border-top:1px solid var(--border);display:flex;justify-content:space-around;z-index:5}
+.nav button{flex:1;background:none;border:0;color:var(--dim);padding:12px 4px;font:500 12px var(--fb);cursor:pointer}
+.nav button.on{color:var(--gold2);border-top:2px solid var(--gold2);margin-top:-1px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:14px;margin:0 0 10px}
+.card.click{cursor:pointer}.card.click:hover{background:var(--hover)}
+.row{display:flex;gap:12px;align-items:center}.grow{flex:1;min-width:0}
+.tag{font-family:var(--fm);font-size:10px;letter-spacing:.12em;color:var(--faint);text-transform:uppercase}
+.bar{height:6px;background:#0b0f0c;border-radius:3px;overflow:hidden;border:1px solid var(--border)}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2))}
+.btn{background:var(--gold);color:#12150f;border:0;border-radius:4px;padding:11px 16px;font:600 14px var(--fb);cursor:pointer}
+.btn.ghost{background:none;color:var(--gold2);border:1px solid var(--gold)}
+.btn.sm{padding:7px 11px;font-size:12px}
+.btn:disabled{opacity:.4;cursor:default}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.back{background:none;border:0;color:var(--dim);font:500 13px var(--fb);cursor:pointer;padding:0;margin-bottom:12px}
+ul.l{margin:0 0 12px;padding-left:20px;font-size:15px}ul.l li{margin:4px 0}
+.callout{border-left:3px solid var(--gold);background:var(--panel2);padding:10px 12px;border-radius:0 4px 4px 0;margin:12px 0;font-size:14px}
+.callout.key{border-color:var(--good)}.callout.ex{border-color:#6a8fb5}.callout.warn{border-color:var(--warn)}
+.callout b.h{display:block;font-family:var(--fm);font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px;color:var(--dim)}
+.opt{display:block;width:100%;text-align:left;background:var(--panel);border:1px solid var(--border);color:var(--text);padding:12px;border-radius:5px;margin:7px 0;font:400 15px var(--fb);cursor:pointer}
+.opt:hover{background:var(--hover)}.opt.sel{border-color:var(--gold2)}
+.opt.ok{border-color:var(--good);background:#16261b}.opt.no{border-color:var(--bad);background:#2a1a16}
+input.num{width:100%;background:#0b0f0c;border:1px solid var(--border);color:var(--text);padding:12px;border-radius:5px;font:500 18px var(--fm)}
+.pill{display:inline-block;font:500 11px var(--fm);padding:2px 8px;border-radius:10px;border:1px solid var(--border);color:var(--dim)}
+.pill.g{color:var(--good);border-color:var(--good)}.pill.b{color:var(--bad);border-color:var(--bad)}
+.stat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.stat div{background:var(--panel);border:1px solid var(--border);border-radius:5px;padding:10px;text-align:center}
+.stat b{display:block;font:600 22px var(--fd);color:var(--gold2)}.stat span{font-size:11px;color:var(--dim)}
+.foot{font-size:12px;color:var(--faint);margin-top:26px;border-top:1px solid var(--border);padding-top:12px}
+.sol{font:400 13px var(--fm);color:var(--dim);white-space:pre-wrap;margin-top:8px}
+a{color:var(--gold2)}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div class="nav" id="nav">
+ <button data-act="nav" data-v="home">Course</button>
+ <button data-act="nav" data-v="drills">Math drills</button>
+ <button data-act="nav" data-v="examhome">Exam</button>
+ <button data-act="nav" data-v="progress">Progress</button>
+</div>
+<script>
+const DATA = __DATA_JSON__;
+const KEY='ms-realestate-course-v1';
+let mem=null;
+function load(){try{const r=localStorage.getItem(KEY);if(r)return JSON.parse(r)}catch(e){}return mem||{done:{},quiz:{},missed:{},exams:[],drill:{}}}
+let S=load();
+function save(){mem=S;try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+const $=s=>document.querySelector(s);
+const U=DATA.units;const byId={};U.forEach(u=>byId[u.id]=u);
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function inline(s){return esc(s).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>')}
+function renderBody(arr){let h='',inL=false;for(const p of arr){if(p.startsWith('- ')){if(!inL){h+='<ul class="l">';inL=true}h+='<li>'+inline(p.slice(2))+'</li>'}else{if(inL){h+='</ul>';inL=false}h+='<p>'+inline(p)+'</p>'}}if(inL)h+='</ul>';return h}
+function doneCount(u){return (S.done[u.id]||[]).length}
+function totalLessons(){return U.reduce((a,u)=>a+u.lessons.length,0)}
+function totalDone(){return U.reduce((a,u)=>a+doneCount(u),0)}
+let V={name:'home'};
+function go(v){V=v;render();window.scrollTo(0,0)}
+function nextLesson(){for(const u of U){const d=S.done[u.id]||[];for(let i=0;i<u.lessons.length;i++)if(!d.includes(i))return {u:u.id,i}}return null}
+
+/* ---------- Views ---------- */
+function home(){
+ const td=totalDone(),tl=totalLessons(),pct=Math.round(100*td/tl),nx=nextLesson();
+ let h=`<p class="eyebrow">Self-study course</p><h1>Mississippi Real Estate Course</h1>
+ <p class="sub">Salesperson pre-licensing prep: ${U.length} units, ${tl} lessons, ${DATA.nq} practice questions, math drills and a 120-question exam simulator.</p>
+ <div class="card"><div class="row"><div class="grow"><div class="tag">Course progress</div><div class="bar" style="margin:6px 0"><i style="width:${pct}%"></i></div><span class="sub" style="margin:0">${td} of ${tl} lessons complete (${pct}%)</span></div>
+ ${nx?`<button class="btn" data-act="lesson" data-u="${nx.u}" data-i="${nx.i}">${td?'Continue':'Start'}</button>`:'<span class="pill g">Course complete</span>'}</div></div>
+ <div class="callout warn"><b class="h">Read this first</b>This is a study aid built from the Mississippi license law (rev. July 1, 2026), MREC forms and rules, and standard national real estate principles. It is not legal advice or an official source. Rules and exam formats change. Confirm against MREC (mrec.ms.gov) and the current PSI candidate bulletin before you rely on anything here.</div>`;
+ for(const part of ['National','Mississippi']){
+  h+=`<h2>${part==='National'?'Part 1: National principles':'Part 2: Mississippi law & Gulf Coast'}</h2>`;
+  U.filter(u=>u.part===part).forEach(u=>{
+   const q=S.quiz[u.id];const d=doneCount(u);
+   h+=`<div class="card click" data-act="unit" data-u="${u.id}"><div class="row"><div class="grow"><div class="tag">Unit ${u.id}</div><div style="font-family:var(--fd);font-size:17px;font-weight:600">${esc(u.title)}</div>
+   <div class="bar" style="margin:8px 0 4px"><i style="width:${Math.round(100*d/u.lessons.length)}%"></i></div>
+   <span class="sub" style="margin:0;font-size:12px">${d}/${u.lessons.length} lessons${q?` · best quiz ${q.best}%`:''}</span></div></div></div>`})}
+ h+=`<div class="foot">Progress saves in this browser only. Sources are listed under the Progress tab.</div>`;return h}
+
+function unitView(u){
+ const d=S.done[u.id]||[];const q=S.quiz[u.id];
+ let h=`<button class="back" data-act="nav" data-v="home">← All units</button><p class="eyebrow">Unit ${u.id} · ${u.part}</p><h1>${esc(u.title)}</h1>
+ <div class="callout key"><b class="h">Objectives</b><ul class="l" style="margin:0">${u.objectives.map(o=>`<li>${esc(o)}</li>`).join('')}</ul></div><h2>Lessons</h2>`;
+ u.lessons.forEach((l,i)=>{h+=`<div class="card click" data-act="lesson" data-u="${u.id}" data-i="${i}"><div class="row"><div class="grow">${i+1}. ${esc(l.title)}</div>${d.includes(i)?'<span class="pill g">done</span>':'<span class="pill">open</span>'}</div></div>`});
+ h+=`<div class="btns"><button class="btn" data-act="quiz" data-u="${u.id}">Take unit quiz (${u.quiz.length})</button>${u.drill?'<button class="btn ghost" data-act="nav" data-v="drills">Math drills</button>':''}</div>`;
+ if(q)h+=`<p class="sub">Last: ${q.last}% · Best: ${q.best}% · Attempts: ${q.n}</p>`;return h}
+
+function lessonView(u,i){
+ const l=u.lessons[i];const done=(S.done[u.id]||[]).includes(i);
+ let h=`<button class="back" data-act="unit" data-u="${u.id}">← ${esc(u.title)}</button><p class="eyebrow">Unit ${u.id} · Lesson ${i+1} of ${u.lessons.length}</p><h1 style="font-size:24px">${esc(l.title)}</h1>${renderBody(l.body)}`;
+ if(l.key&&l.key.length)h+=`<div class="callout key"><b class="h">Key points</b><ul class="l" style="margin:0">${l.key.map(k=>`<li>${inline(k)}</li>`).join('')}</ul></div>`;
+ if(l.example)h+=`<div class="callout ex"><b class="h">Example</b>${inline(l.example)}</div>`;
+ if(l.confirm&&l.confirm.length)h+=`<div class="callout warn"><b class="h">Confirm before you rely on it</b>${l.confirm.map(c=>`<p style="margin:0 0 6px">${inline(c)}</p>`).join('')}</div>`;
+ h+=`<div class="btns"><button class="btn" data-act="complete" data-u="${u.id}" data-i="${i}">${done?'Completed ✓ — next':(i<u.lessons.length-1?'Mark complete & next':'Mark complete')}</button>${i>0?`<button class="btn ghost" data-act="lesson" data-u="${u.id}" data-i="${i-1}">Previous</button>`:''}</div>`;return h}
+
+/* ---------- Quiz engine ---------- */
+let Q=null;
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function startQuiz(kind,qs,meta){Q={kind,qs,i:0,ans:[],sel:null,locked:false,meta:meta||{}};go({name:'quiz'})}
+function quizView(){
+ if(Q.i>=Q.qs.length)return quizResult();
+ const q=Q.qs[Q.i];const exam=Q.kind==='exam';
+ let h=`<button class="back" data-act="quitquiz">← Exit</button><p class="eyebrow">${esc(Q.meta.title||'Quiz')} · ${Q.i+1}/${Q.qs.length}</p><div class="bar"><i style="width:${Math.round(100*Q.i/Q.qs.length)}%"></i></div>
+ <h2 style="margin-top:16px;font-size:18px">${inline(q.q)}</h2>`;
+ q.o.forEach((o,k)=>{let c='opt';if(Q.locked&&!exam){if(k===q.a)c+=' ok';else if(k===Q.sel)c+=' no'}else if(k===Q.sel)c+=' sel';
+  h+=`<button class="${c}" data-act="pick" data-k="${k}">${String.fromCharCode(65+k)}. ${esc(o)}</button>`});
+ if(Q.locked&&!exam){const ok=Q.sel===q.a;h+=`<div class="callout ${ok?'key':'warn'}"><b class="h">${ok?'Correct':'Not quite'}</b>${inline(q.why)}</div>`}
+ h+=`<div class="btns">`;
+ if(exam){h+=`<button class="btn" data-act="next" ${Q.sel===null?'disabled':''}>${Q.i<Q.qs.length-1?'Next':'Finish exam'}</button>`}
+ else if(!Q.locked)h+=`<button class="btn" data-act="check" ${Q.sel===null?'disabled':''}>Check answer</button>`;
+ else h+=`<button class="btn" data-act="next">${Q.i<Q.qs.length-1?'Next':'See results'}</button>`;
+ return h+`</div>`}
+function quizResult(){
+ const n=Q.qs.length;let h='';
+ if(Q.kind==='exam'){
+  const nat=Q.qs.map((q,i)=>[q,Q.ans[i]]).filter(([q])=>q.part==='National'),st=Q.qs.map((q,i)=>[q,Q.ans[i]]).filter(([q])=>q.part==='Mississippi');
+  const sc=a=>a.filter(([q,x])=>x===q.a).length;const np=Math.round(100*sc(nat)/nat.length),sp=Math.round(100*sc(st)/st.length);
+  const np_ok=np>=70,sp_ok=sp>=75;
+  if(!Q.saved){S.exams.push({d:Date.now(),nat:np,st:sp,nn:nat.length,sn:st.length});Q.qs.forEach((q,i)=>{if(Q.ans[i]!==q.a)S.missed[q.id]=1;else delete S.missed[q.id]});save();Q.saved=1}
+  h+=`<p class="eyebrow">Exam simulator result</p><h1>${np_ok&&sp_ok?'Passing score':'Below passing'}</h1>
+  <div class="stat"><div><b>${np}%</b><span>National (${nat.length} Qs)<br>pass line 70%</span></div><div><b>${sp}%</b><span>Mississippi (${st.length} Qs)<br>pass line 75%</span></div><div><b>${np_ok&&sp_ok?'✓':'✗'}</b><span>Overall</span></div></div>
+  <p class="sub">Both portions must pass. Your practice bank is smaller than the real exam, so treat this as a readiness check, not a prediction.</p>`}
+ else{
+  const c=Q.qs.filter((q,i)=>Q.ans[i]===q.a).length;const pct=Math.round(100*c/n);
+  if(!Q.saved){if(Q.meta.unit){const r=S.quiz[Q.meta.unit]||{best:0,n:0};r.best=Math.max(r.best,pct);r.last=pct;r.n++;S.quiz[Q.meta.unit]=r}Q.qs.forEach((q,i)=>{if(Q.ans[i]!==q.a)S.missed[q.id]=1;else delete S.missed[q.id]});save();Q.saved=1}
+  h+=`<p class="eyebrow">${esc(Q.meta.title||'Quiz')} result</p><h1>${c} / ${n} (${pct}%)</h1><p class="sub">${pct>=85?'Strong. Move on and revisit in a few days.':pct>=70?'Passing, but review the misses below before moving on.':'Re-read the lessons for this unit, then retake the quiz.'}</p>`}
+ const miss=Q.qs.map((q,i)=>[q,i]).filter(([q,i])=>Q.ans[i]!==q.a);
+ if(miss.length){h+=`<h2>Review misses (${miss.length})</h2>`;miss.forEach(([q,i])=>{h+=`<div class="card"><div class="tag">${esc(q.id)}</div><p style="margin:4px 0">${inline(q.q)}</p><p style="margin:0;font-size:13px"><span class="pill b">You: ${Q.ans[i]===null||Q.ans[i]===undefined?'—':esc(q.o[Q.ans[i]])}</span> <span class="pill g">Correct: ${esc(q.o[q.a])}</span></p><p class="sub" style="margin:6px 0 0;font-size:13px">${inline(q.why)}</p></div>`})}
+ return h+`<div class="btns"><button class="btn" data-act="nav" data-v="home">Back to course</button><button class="btn ghost" data-act="nav" data-v="examhome">Exam menu</button></div>`}
+
+/* ---------- Exam ---------- */
+function examHome(){
+ const nm=Object.keys(S.missed).length;const ex=S.exams.slice(-3).reverse();
+ let h=`<p class="eyebrow">Practice</p><h1>Exam simulator</h1><p class="sub">80 national + 40 Mississippi questions drawn at random from the full bank. National pass line 70%, Mississippi pass line 75% (per the PSI candidate bulletin; confirm current rules). No feedback until the end.</p>
+ <div class="btns"><button class="btn" data-act="startexam">Start 120-question exam</button><button class="btn ghost" data-act="startmini">20-question mixed quiz</button>${nm?`<button class="btn ghost" data-act="startmissed">Review missed (${nm})</button>`:''}</div>`;
+ if(ex.length){h+='<h2>Recent exams</h2>';ex.forEach(e=>{h+=`<div class="card"><div class="tag">${new Date(e.d).toLocaleDateString()}</div>National ${e.nat}% · Mississippi ${e.st}% ${e.nat>=70&&e.st>=75?'<span class="pill g">pass</span>':'<span class="pill b">below</span>'}</div>`})}
+ return h}
+function pool(part){const a=[];U.forEach(u=>{if(part&&u.part!==part)return;u.quiz.forEach(q=>a.push(Object.assign({part:u.part},q)))});return a}
+function pickQ(q){const idx=shuffle(q.o.map((o,i)=>i));return Object.assign({},q,{o:idx.map(i=>q.o[i]),a:idx.indexOf(q.a)})}
+
+/* ---------- Math drills ---------- */
+const R={int:(a,b,s=1)=>a+s*Math.floor(Math.random()*((b-a)/s+1)),pick:a=>a[Math.floor(Math.random()*a.length)]};
+const money=n=>'$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const GEN=[
+ {id:'commission',name:'Commission',f(){const p=R.int(120000,520000,5000),r=R.pick([4,4.5,5,5.5,6,6.5,7]);const a=p*r/100;return{q:`A home sells for ${money(p)}. The commission rate is ${r}%. What is the total commission?`,a,u:'$',s:`${p} × ${r/100} = ${a}`}}},
+ {id:'split',name:'Commission split',f(){const p=R.int(150000,450000,10000),r=6,sp=R.pick([50,60,70,80]);const c=p*r/100,a=c*sp/100;return{q:`A ${money(p)} home sells at ${r}%. The salesperson's split of the commission is ${sp}%. What does the salesperson earn?`,a,u:'$',s:`${p} × 0.06 = ${c}\n${c} × ${sp/100} = ${a}`}}},
+ {id:'net',name:'Seller net',f(){const p=R.int(180000,420000,5000),r=R.pick([5,6,7]),pay=R.int(60000,160000,5000),cc=R.int(2000,6000,500);const com=p*r/100,a=p-com-pay-cc;return{q:`Sale price ${money(p)}; commission ${r}%; mortgage payoff ${money(pay)}; other seller closing costs ${money(cc)}. What are the seller's net proceeds?`,a,u:'$',s:`commission = ${com}\n${p} − ${com} − ${pay} − ${cc} = ${a}`}}},
+ {id:'price-to-net',name:'Price to net a target',f(){const net=R.int(120000,300000,5000),r=R.pick([5,6,7]);const a=net/(1-r/100);return{q:`A seller wants to net exactly ${money(net)} after a ${r}% commission (no other costs). What sale price is required? (Round to the nearest dollar.)`,a,u:'$',tol:1,s:`${net} ÷ (1 − ${r/100}) = ${a.toFixed(2)}`}}},
+ {id:'ltv',name:'Loan-to-value',f(){const p=R.int(150000,400000,5000),ap=p+R.pick([-10000,-5000,0,5000]),dp=R.pick([3.5,5,10,20]);const loan=p*(1-dp/100),base=Math.min(p,ap),a=100*loan/base;return{q:`Price ${money(p)}, appraised value ${money(ap)}, down payment ${dp}% of price. What is the LTV (percent, to one decimal)?`,a,u:'%',tol:.15,s:`loan = ${p} × ${1-dp/100} = ${loan}\nbase = lesser of price/appraisal = ${base}\nLTV = ${loan} ÷ ${base} = ${a.toFixed(2)}%`}}},
+ {id:'interest',name:'Monthly interest',f(){const b=R.int(90000,320000,5000),r=R.pick([4,4.5,5,5.5,6,6.5,7]);const a=b*r/100/12;return{q:`A loan balance is ${money(b)} at ${r}% annual interest. How much interest accrues for one month?`,a,u:'$',tol:.02,s:`${b} × ${r/100} ÷ 12 = ${a.toFixed(2)}`}}},
+ {id:'points',name:'Discount points',f(){const l=R.int(100000,400000,5000),pt=R.pick([1,1.5,2,2.5,3]);const a=l*pt/100;return{q:`${pt} discount point(s) on a ${money(l)} loan cost how much?`,a,u:'$',s:`${l} × ${pt/100} = ${a}`}}},
+ {id:'maxpay',name:'Qualifying payment',f(){const inc=R.int(4000,9000,250),rt=R.pick([28,31]);const a=inc*rt/100;return{q:`Gross monthly income is ${money(inc)}. A lender allows a front-end ratio of ${rt}%. What is the maximum monthly PITI?`,a,u:'$',s:`${inc} × ${rt/100} = ${a}`}}},
+ {id:'factor',name:'Payment factor',f(){const l=R.int(120000,360000,5000),f=R.pick([5.37,5.99,6.33,6.65,7.34]);const a=l/1000*f;return{q:`A loan of ${money(l)} has a payment factor of $${f.toFixed(2)} per $1,000. What is the monthly principal and interest payment?`,a,u:'$',tol:.02,s:`${l} ÷ 1,000 × ${f} = ${a.toFixed(2)}`}}},
+ {id:'acres',name:'Acreage',f(){const w=R.pick([200,300,400,435.6,500,871.2]),d=R.pick([200,300,500,600,1000]);const a=w*d/43560;return{q:`A rectangular tract measures ${w} ft by ${d} ft. How many acres is it? (Round to two decimals.)`,a,u:'acres',tol:.01,s:`${w} × ${d} = ${w*d} sq ft\n÷ 43,560 = ${a.toFixed(3)}`}}},
+ {id:'section',name:'Section fractions',f(){const fr=[['N½',2],['S½',2],['E½',2],['W½',2],['NE¼',4],['NW¼',4],['SE¼',4],['SW¼',4]];const n=R.int(2,3);const ch=[];let a=640;for(let i=0;i<n;i++){const f=R.pick(fr);ch.push(f[0]);a/=f[1]}const desc='The '+ch.join(' of the ')+' of the section';return{q:`${desc}. How many acres? (A section is 640 acres.)`,a,u:'acres',s:`Work from the end: 640 ÷ ${[...ch].reverse().map((c,i)=>fr.find(f=>f[0]===c)[1]).join(' ÷ ')} = ${a}`}}},
+ {id:'cap',name:'Cap-rate value',f(){const noi=R.int(40000,200000,5000),cr=R.pick([6,6.5,7,7.5,8,8.5,9]);const a=noi/(cr/100);return{q:`NOI is ${money(noi)} and the market cap rate is ${cr}%. What is the indicated value? (Nearest dollar.)`,a,u:'$',tol:1,s:`${noi} ÷ ${cr/100} = ${a.toFixed(2)}`}}},
+ {id:'caprate',name:'Cap rate',f(){const v=R.int(500000,2000000,50000),noi=R.int(40000,160000,5000);const a=100*noi/v;return{q:`A property sold for ${money(v)} and has NOI of ${money(noi)}. What is the cap rate (percent, to two decimals)?`,a,u:'%',tol:.02,s:`${noi} ÷ ${v} = ${a.toFixed(3)}%`}}},
+ {id:'grm',name:'GRM value',f(){const rent=R.int(900,2400,50),g=R.pick([100,110,120,130,140]);const a=rent*g;return{q:`Comparable rentals sell at a GRM of ${g}. The subject rents for ${money(rent)} per month. What is its indicated value?`,a,u:'$',s:`${rent} × ${g} = ${a}`}}},
+ {id:'proration',name:'Tax proration',f(){const t=R.int(1800,5400,300),days=R.int(30,330,15),basis=R.pick([360,365]);const a=t/basis*days;return{q:`Annual taxes are ${money(t)}, unpaid at closing. The seller owes ${days} days. Using a ${basis}-day year, what is the credit to the buyer?`,a,u:'$',tol:.02,s:`${t} ÷ ${basis} × ${days} = ${a.toFixed(2)}`}}},
+ {id:'mstax',name:'Mississippi property tax',f(){const v=R.int(90000,320000,5000),cls=R.pick([['Class I (owner-occupied single-family)',10],['Class II (other real property)',15]]),m=R.pick([60,75,90,110,125]);const as=v*cls[1]/100,a=as*m/1000;return{q:`${cls[0]} property valued at ${money(v)}. Assessment ratio ${cls[1]}%; millage ${m} mills. What is the annual tax? (Ignore exemptions.)`,a,u:'$',tol:.02,s:`assessed = ${v} × ${cls[1]/100} = ${as}\ntax = ${as} × ${m} ÷ 1000 = ${a.toFixed(2)}`}}},
+ {id:'comp',name:'Comparable adjustment',f(){const sp=R.int(180000,380000,5000),adj=R.int(3000,18000,1000),sup=R.pick([true,false]);const a=sup?sp-adj:sp+adj;return{q:`A comparable sold for ${money(sp)}. It ${sup?'has a feature':'lacks a feature'} worth ${money(adj)} that the subject ${sup?'lacks':'has'}. What is the adjusted comparable price?`,a,u:'$',s:sup?`Comp is superior → subtract: ${sp} − ${adj} = ${a}`:`Comp is inferior → add: ${sp} + ${adj} = ${a}`}}},
+ {id:'pct',name:'Percent change',f(){const o=R.int(120000,300000,5000),n=o+R.int(-30000,60000,5000);const a=100*(n-o)/o;return{q:`A property was bought for ${money(o)} and is now worth ${money(n)}. What is the percent change (to one decimal; use a minus sign for a loss)?`,a,u:'%',tol:.15,s:`(${n} − ${o}) ÷ ${o} = ${a.toFixed(2)}%`}}},
+ {id:'dscr',name:'DSCR',f(){const noi=R.int(50000,150000,5000),ds=R.int(40000,120000,5000);const a=noi/ds;return{q:`NOI is ${money(noi)}; annual debt service is ${money(ds)}. What is the DSCR (two decimals)?`,a,u:'x',tol:.01,s:`${noi} ÷ ${ds} = ${a.toFixed(3)}`}}},
+];
+let D=null;
+function newDrill(id){const g=id?GEN.find(x=>x.id===id):R.pick(GEN);D=Object.assign({g,res:null},g.f())}
+function parseNum(s){const t=String(s).replace(/[$,%\s,x]|acres/gi,'');if(t===''||isNaN(t))return NaN;return parseFloat(t)}
+function gradeDrill(inp,p){const v=parseNum(inp);if(isNaN(v))return null;const tol=p.tol!==undefined?p.tol:Math.max(0.5,Math.abs(p.a)*0.001);return Math.abs(v-p.a)<=tol}
+function fmtAns(p){return p.u==='$'?money(p.a):p.u==='%'?p.a.toFixed(2)+'%':p.u==='acres'?(Math.round(p.a*1000)/1000)+' acres':p.u==='x'?p.a.toFixed(2):String(p.a)}
+function drillsView(){
+ if(!D)newDrill();
+ const st=S.drill[D.g.id]||{c:0,n:0};const tot=Object.values(S.drill).reduce((a,x)=>({c:a.c+x.c,n:a.n+x.n}),{c:0,n:0});
+ let h=`<p class="eyebrow">Practice</p><h1>Math drills</h1><p class="sub">Random problems, unlimited. Answers accept $, commas and % signs. Overall: ${tot.c}/${tot.n} correct.</p>
+ <div class="card"><div class="tag">${esc(D.g.name)} · this type ${st.c}/${st.n}</div><p style="margin:8px 0 10px;font-size:16px">${esc(D.q)}</p>
+ <input class="num" id="ans" inputmode="decimal" placeholder="Your answer${D.u==='%'?' (%)':D.u==='$'?' ($)':''}" ${D.res!==null?'disabled':''}>`;
+ if(D.res===null)h+=`<div class="btns"><button class="btn" data-act="grade">Check</button><button class="btn ghost" data-act="newdrill">Skip</button></div>`;
+ else h+=`<div class="callout ${D.res?'key':'warn'}"><b class="h">${D.res?'Correct':'Not quite'}</b>Answer: ${esc(fmtAns(D))}<div class="sol">${esc(D.s)}</div></div><div class="btns"><button class="btn" data-act="newdrill">Next problem</button><button class="btn ghost" data-act="newdrillsame">Same type</button></div>`;
+ h+=`</div><h2>Choose a type</h2><div class="btns">${GEN.map(g=>`<button class="btn ghost sm" data-act="drilltype" data-t="${g.id}">${esc(g.name)}</button>`).join('')}</div>`;return h}
+
+/* ---------- Progress ---------- */
+function progressView(){
+ const td=totalDone(),tl=totalLessons();const nm=Object.keys(S.missed).length;
+ let h=`<p class="eyebrow">Your record</p><h1>Progress</h1><div class="stat"><div><b>${td}/${tl}</b><span>Lessons</span></div><div><b>${Object.keys(S.quiz).length}/${U.length}</b><span>Units quizzed</span></div><div><b>${nm}</b><span>Missed to review</span></div></div><h2>Unit quiz scores</h2>`;
+ U.forEach(u=>{const q=S.quiz[u.id];h+=`<div class="card"><div class="row"><div class="grow">${u.id} · ${esc(u.title)}</div>${q?`<span class="pill ${q.best>=85?'g':q.best<70?'b':''}">${q.best}%</span>`:'<span class="pill">—</span>'}</div></div>`});
+ h+=`<h2>Sources</h2><ul class="l" style="font-size:13px">${DATA.sources.map(s=>`<li><a href="${s[1]}" target="_blank" rel="noopener">${esc(s[0])}</a></li>`).join('')}</ul>
+ <div class="btns"><button class="btn ghost sm" data-act="reset">Reset all progress</button></div>
+ <div class="foot">${esc(DATA.disclaimer)}</div>`;return h}
+
+/* ---------- Render + events ---------- */
+function render(){
+ let h='';
+ switch(V.name){
+  case 'home':h=home();break;
+  case 'unit':h=unitView(byId[V.u]);break;
+  case 'lesson':h=lessonView(byId[V.u],V.i);break;
+  case 'quiz':h=quizView();break;
+  case 'drills':h=drillsView();break;
+  case 'examhome':h=examHome();break;
+  case 'progress':h=progressView();break;
+ }
+ $('#app').innerHTML=h;
+ document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',(b.dataset.v==='home'&&['home','unit','lesson'].includes(V.name))||b.dataset.v===V.name||(b.dataset.v==='examhome'&&V.name==='quiz'&&Q&&Q.kind!=='unit')));
+}
+document.addEventListener('click',e=>{
+ const t=e.target.closest('[data-act]');if(!t)return;const a=t.dataset.act;
+ if(a==='nav'){go({name:t.dataset.v});if(t.dataset.v==='drills'&&D&&D.res!==null)newDrill();return}
+ if(a==='unit')return go({name:'unit',u:t.dataset.u});
+ if(a==='lesson')return go({name:'lesson',u:t.dataset.u,i:+t.dataset.i});
+ if(a==='complete'){const u=byId[t.dataset.u],i=+t.dataset.i;const d=S.done[u.id]=S.done[u.id]||[];if(!d.includes(i))d.push(i);save();
+  if(i<u.lessons.length-1)go({name:'lesson',u:u.id,i:i+1});else go({name:'unit',u:u.id});return}
+ if(a==='quiz'){const u=byId[t.dataset.u];startQuiz('unit',shuffle(u.quiz).map(pickQ).map(q=>q),{unit:u.id,title:'Unit '+u.id+' quiz'});return}
+ if(a==='startexam'){const n=shuffle(pool('National')).slice(0,80),s=shuffle(pool('Mississippi')).slice(0,40);startQuiz('exam',shuffle(n.concat(s)).map(pickQ),{title:'Exam simulator'});return}
+ if(a==='startmini'){startQuiz('mini',shuffle(pool()).slice(0,20).map(pickQ),{title:'Mixed quiz'});return}
+ if(a==='startmissed'){const ids=Object.keys(S.missed);const qs=pool().filter(q=>ids.includes(q.id));if(!qs.length)return;startQuiz('mini',shuffle(qs).map(pickQ),{title:'Missed questions'});return}
+ if(a==='pick'){if(Q.locked&&Q.kind!=='exam')return;Q.sel=+t.dataset.k;render();return}
+ if(a==='check'){Q.locked=true;Q.ans[Q.i]=Q.sel;render();return}
+ if(a==='next'){if(Q.kind==='exam')Q.ans[Q.i]=Q.sel;Q.i++;Q.sel=null;Q.locked=false;render();window.scrollTo(0,0);return}
+ if(a==='quitquiz'){if(confirm('Exit this quiz? Unsaved progress will be lost.'))go({name:Q.kind==='unit'?'unit':'examhome',u:Q.meta.unit});return}
+ if(a==='grade'){const inp=$('#ans').value;const r=gradeDrill(inp,D);if(r===null){$('#ans').focus();return}D.res=r;const st=S.drill[D.g.id]=S.drill[D.g.id]||{c:0,n:0};st.n++;if(r)st.c++;save();render();return}
+ if(a==='newdrill'){newDrill();render();return}
+ if(a==='newdrillsame'){newDrill(D.g.id);render();return}
+ if(a==='drilltype'){newDrill(t.dataset.t);render();return}
+ if(a==='reset'){if(confirm('Erase all progress in this browser?')){S={done:{},quiz:{},missed:{},exams:[],drill:{}};save();go({name:'home'})}return}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&V.name==='drills'&&D&&D.res===null){const b=document.querySelector('[data-act=grade]');if(b)b.click()}});
+render();
+</script>
+</body>
+</html>
