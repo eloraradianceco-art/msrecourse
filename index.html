@@ -63,7 +63,7 @@ a{color:var(--gold2)}
 <div class="wrap" id="app"></div>
 <div class="nav" id="nav">
  <button data-act="nav" data-v="home">Course</button>
- <button data-act="nav" data-v="drills">Math drills</button>
+ <button data-act="nav" data-v="drills">Math & tools</button>
  <button data-act="nav" data-v="examhome">Exam</button>
  <button data-act="nav" data-v="progress">Progress</button>
 </div>
@@ -196,12 +196,99 @@ function fmtAns(p){return p.u==='$'?money(p.a):p.u==='%'?p.a.toFixed(2)+'%':p.u=
 function drillsView(){
  if(!D)newDrill();
  const st=S.drill[D.g.id]||{c:0,n:0};const tot=Object.values(S.drill).reduce((a,x)=>({c:a.c+x.c,n:a.n+x.n}),{c:0,n:0});
- let h=`<p class="eyebrow">Practice</p><h1>Math drills</h1><p class="sub">Random problems, unlimited. Answers accept $, commas and % signs. Overall: ${tot.c}/${tot.n} correct.</p>
+ let h=`<p class="eyebrow">Practice</p><h1>Math & tools</h1>${toolsTabs()}<p class="sub">Random problems, unlimited. Answers accept $, commas and % signs. Overall: ${tot.c}/${tot.n} correct.</p>
  <div class="card"><div class="tag">${esc(D.g.name)} · this type ${st.c}/${st.n}</div><p style="margin:8px 0 10px;font-size:16px">${esc(D.q)}</p>
  <input class="num" id="ans" inputmode="decimal" placeholder="Your answer${D.u==='%'?' (%)':D.u==='$'?' ($)':''}" ${D.res!==null?'disabled':''}>`;
  if(D.res===null)h+=`<div class="btns"><button class="btn" data-act="grade">Check</button><button class="btn ghost" data-act="newdrill">Skip</button></div>`;
  else h+=`<div class="callout ${D.res?'key':'warn'}"><b class="h">${D.res?'Correct':'Not quite'}</b>Answer: ${esc(fmtAns(D))}<div class="sol">${esc(D.s)}</div></div><div class="btns"><button class="btn" data-act="newdrill">Next problem</button><button class="btn ghost" data-act="newdrillsame">Same type</button></div>`;
  h+=`</div><h2>Choose a type</h2><div class="btns">${GEN.map(g=>`<button class="btn ghost sm" data-act="drilltype" data-t="${g.id}">${esc(g.name)}</button>`).join('')}</div>`;return h}
+
+/* ---------- Math tools ---------- */
+let MT='drills',CALC={expr:'',out:'',hist:[]},TOOL='mortgage',TV={};
+const fmt$=n=>(isFinite(n)?(n<0?'-':'')+'$'+Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}):'—');
+const fmtP=n=>isFinite(n)?n.toFixed(2)+'%':'—';
+const fmtN=(n,d=2)=>isFinite(n)?n.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:d}):'—';
+/* safe expression parser: numbers, + - * / ^ ( ) and postfix % */
+function calcEval(src){
+ const s=src.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-').replace(/,/g,'').replace(/\s+/g,'');
+ if(!s)return NaN;if(!/^[0-9+\-*/^().%]+$/.test(s))return NaN;
+ let i=0;
+ function num(){let m=/^\d*\.?\d+(?:e[+-]?\d+)?/i.exec(s.slice(i));if(!m)throw 0;i+=m[0].length;return parseFloat(m[0])}
+ function prim(){let v;if(s[i]==='('){i++;v=expr();if(s[i]!==')')throw 0;i++}else if(s[i]==='-'){i++;return -prim()}else if(s[i]==='+'){i++;return prim()}else v=num();
+  while(s[i]==='%'){i++;v=v/100}return v}
+ function pow(){let b=prim();if(s[i]==='^'){i++;return Math.pow(b,pow())}return b}
+ function term(){let v=pow();while(s[i]==='*'||s[i]==='/'){const o=s[i++];const r=pow();v=o==='*'?v*r:v/r}return v}
+ function expr(){let v=term();while(s[i]==='+'||s[i]==='-'){const o=s[i++];const r=term();v=o==='+'?v+r:v-r}return v}
+ try{const v=expr();if(i!==s.length)return NaN;return v}catch(e){return NaN}
+}
+function calcShow(n){if(!isFinite(n))return 'Error';const r=Math.round(n*1e10)/1e10;return String(r)}
+function dayCount(y1,m1,d1,y2,m2,d2,basis){
+ if(basis===360){d1=Math.min(d1,30);d2=Math.min(d2,30);return (y2-y1)*360+(m2-m1)*30+(d2-d1)}
+ return Math.round((Date.UTC(y2,m2-1,d2)-Date.UTC(y1,m1-1,d1))/864e5)}
+const FR=[['—',1],['N½',2],['S½',2],['E½',2],['W½',2],['NE¼',4],['NW¼',4],['SE¼',4],['SW¼',4]];
+const frOpts=FR.map(f=>f[0]);
+const TOOLS={
+ mortgage:{name:'Mortgage payment',f:[['loan','Loan amount ($)',250000],['rate','Interest rate (%)',6.5],['yrs','Term (years)',30],['tax','Annual property tax ($)',3000],['ins','Annual insurance ($)',1800],['pmi','Monthly PMI ($)',0],['hoa','Monthly HOA ($)',0],['val','Lesser of price/appraisal ($, for LTV)',275000]],
+  c(v){const r=v.rate/1200,n=v.yrs*12;const pi=r===0?v.loan/n:v.loan*r/(1-Math.pow(1+r,-n));const piti=pi+v.tax/12+v.ins/12+v.pmi+v.hoa;const i1=v.loan*r;
+   return [['Monthly principal & interest',fmt$(pi),'loan × r ÷ (1 − (1+r)^−n), r = rate ÷ 12'],['Total monthly payment (PITI + PMI/HOA)',fmt$(piti),'P&I + tax ÷ 12 + insurance ÷ 12 + PMI + HOA'],['First-month interest',fmt$(i1),'balance × rate ÷ 12'],['First-month principal',fmt$(pi-i1),'payment − interest'],['Total interest over the term',fmt$(pi*n-v.loan),''],['LTV',v.val>0?fmtP(100*v.loan/v.val):'—','loan ÷ lesser of price or appraisal'],['Income needed at 28% front-end',fmt$(piti/0.28),'PITI ÷ 0.28 (monthly gross)'],['Income needed at 31% front-end',fmt$(piti/0.31),'FHA-style ratio']]}},
+ commission:{name:'Commission & seller net',f:[['price','Sale price ($)',300000],['rate','Total commission (%)',6],['list','Listing side share of commission (%)',50],['agent','Agent split of their side (%)',60],['payoff','Mortgage payoff ($)',150000],['other','Other seller costs ($)',4000],['target','Target net to seller ($, optional)',0]],
+  c(v){const com=v.price*v.rate/100,ls=com*v.list/100,ag=ls*v.agent/100;const net=v.price-com-v.payoff-v.other;const rows=[['Total commission',fmt$(com),'price × rate'],['Listing side',fmt$(ls),'commission × listing share'],['Listing agent (split)',fmt$(ag),'listing side × agent split'],['Listing brokerage keeps',fmt$(ls-ag),''],['Seller net proceeds',fmt$(net),'price − commission − payoff − other costs']];
+   if(v.target>0)rows.push(['Price needed to net your target',fmt$((v.target+v.payoff+v.other)/(1-v.rate/100)),'(target + payoff + costs) ÷ (1 − commission rate)']);return rows}},
+ proration:{name:'Tax / expense proration',f:[['amt','Annual amount ($)',3600],['cd','Closing date','date:'+new Date().toISOString().slice(0,10)],['ps','Period start (e.g., Jan 1)','date:'+new Date().getFullYear()+'-01-01'],['basis','Year basis','sel:360-day (statutory),365-day (calendar)'],['own','Closing day belongs to','sel:Buyer,Seller'],['kind','Item is','sel:Unpaid / paid in arrears (seller owes buyer),Prepaid (buyer reimburses seller)']],
+  c(v){const dre=/^\d{4}-\d{2}-\d{2}$/;if(!dre.test(v.cd)||!dre.test(v.ps))return [['Enter the closing date and period start','—','']];const [y1,m1,d1]=v.ps.split('-').map(Number),[y2,m2,d2]=v.cd.split('-').map(Number);const b=v.basis.startsWith('360')?360:365;let days=dayCount(y1,m1,d1,y2,m2,d2,b);if(v.own==='Seller')days+=1;const daily=v.amt/b;const sellerPart=daily*days;
+   if(v.kind.startsWith('Unpaid'))return [['Seller days',String(days),'period start up to closing'+(v.own==='Seller'?' (including closing day)':' (buyer owns closing day)')],['Daily rate',fmt$(daily),'annual ÷ '+b],['Credit to BUYER (debit seller)',fmt$(sellerPart),'daily × seller days']];
+   const rem=b-days;return [['Seller days used',String(days),''],['Days remaining (buyer)',String(rem),'basis − seller days'],['Daily rate',fmt$(daily),'annual ÷ '+b],['Credit to SELLER (debit buyer)',fmt$(daily*rem),'daily × buyer\'s remaining days']]}},
+ land:{name:'Land & area',f:[['w','Frontage / width (ft)',200],['d','Depth (ft)',435.6],['ac','Acres → sq ft (optional)',0],['f1','Section fraction 1','sel:'+frOpts.join(',')],['f2','Section fraction 2 (inside 1)','sel:'+frOpts.join(',')],['f3','Section fraction 3 (inside 2)','sel:'+frOpts.join(',')]],
+  c(v){const sf=v.w*v.d;let a=640;const names=[];[v.f1,v.f2,v.f3].forEach(f=>{const x=FR.find(z=>z[0]===f);if(x&&x[1]>1){a/=x[1];names.push(f)}});
+   return [['Area (sq ft)',fmtN(sf,2),'width × depth'],['Acres',fmtN(sf/43560,4),'sq ft ÷ 43,560'],['Square yards',fmtN(sf/9,2),'sq ft ÷ 9'],['Acres entered → sq ft',v.ac>0?fmtN(v.ac*43560,0):'—','acres × 43,560'],['Section fraction acres',names.length?fmtN(a,3)+' acres':'640 acres (whole section)',names.length?'The '+names.join(' of the ')+' of a section; 640 ÷ product of divisors':'']]}},
+ invest:{name:'Income property',f:[['pgi','Potential gross income / yr ($)',120000],['vac','Vacancy & collection loss (%)',5],['opex','Operating expenses / yr ($)',42000],['cap','Market cap rate (%)',7.5],['price','Purchase price ($)',900000],['ds','Annual debt service ($)',55000],['cash','Cash invested ($)',250000]],
+  c(v){const egi=v.pgi*(1-v.vac/100),noi=egi-v.opex;const cf=noi-v.ds;return [['Effective gross income',fmt$(egi),'PGI − vacancy'],['Net operating income (NOI)',fmt$(noi),'EGI − operating expenses (no debt service)'],['Value at market cap rate',fmt$(noi/(v.cap/100)),'NOI ÷ cap rate'],['Cap rate at purchase price',v.price>0?fmtP(100*noi/v.price):'—','NOI ÷ price'],['GRM (price ÷ monthly gross)',v.pgi>0?fmtN(v.price/(v.pgi/12),2):'—','price ÷ monthly PGI'],['DSCR',v.ds>0?fmtN(noi/v.ds,2):'—','NOI ÷ debt service (lenders often want ≥ 1.20)'],['Annual cash flow',fmt$(cf),'NOI − debt service'],['Cash-on-cash return',v.cash>0?fmtP(100*cf/v.cash):'—','cash flow ÷ cash invested']]}},
+ cost:{name:'Cost & comp approach',f:[['rc','Replacement cost new ($)',400000],['dep','Accumulated depreciation (%)',25],['land','Land value ($)',80000],['comp','Comparable sale price ($)',300000],['adj','Feature value ($)',12000],['sup','Comparable is','sel:Superior (subtract),Inferior (add)']],
+  c(v){return [['Depreciated improvements',fmt$(v.rc*(1-v.dep/100)),'replacement cost × (1 − depreciation)'],['Cost approach value',fmt$(v.rc*(1-v.dep/100)+v.land),'depreciated cost + land'],['Adjusted comparable',fmt$(v.sup.startsWith('Sup')?v.comp-v.adj:v.comp+v.adj),'adjust the COMP toward the subject: superior → subtract, inferior → add']]}},
+ mstax:{name:'Mississippi property tax',f:[['val','True (market) value ($)',180000],['cls','Property class','sel:Class I – owner-occupied single-family (10%),Class II – other real property (15%),Class III – personal property (15%),Class IV – public service (30%),Class V – motor vehicles (30%)'],['mills','Millage rate (mills)',90],['sp','Special homestead exemption (65+/disabled)','sel:No,Yes – first $7,500 of assessed value exempt']],
+  c(v){const ratio=+(v.cls.match(/\((\d+)%\)/)||[0,10])[1];const as=v.val*ratio/100;const taxable=v.sp.startsWith('Yes')?Math.max(0,as-7500):as;const tax=taxable*v.mills/1000;return [['Assessment ratio',ratio+'%','by class'],['Assessed value',fmt$(as),'value × ratio'],['Taxable assessed value',fmt$(taxable),v.sp.startsWith('Yes')?'after $7,500 special homestead exemption':'no exemption applied'],['Annual tax',fmt$(tax),'taxable assessed × mills ÷ 1,000'],['Monthly escrow',fmt$(tax/12),'÷ 12'],['Note','—','The regular homestead credit (capped at $300) is not computed here. Verify exemptions with the county tax assessor.']]}},
+ qualify:{name:'Loan qualifying ratios',f:[['inc','Gross monthly income ($)',6500],['piti','Proposed PITI ($)',1850],['debt','Other monthly debts ($)',450]],
+  c(v){return [['Front-end ratio',fmtP(100*v.piti/v.inc),'PITI ÷ income'],['Back-end ratio',fmtP(100*(v.piti+v.debt)/v.inc),'(PITI + debts) ÷ income'],['Max PITI at 28% front',fmt$(v.inc*.28),'income × 0.28'],['Max total debt at 36% back',fmt$(v.inc*.36),'income × 0.36'],['Max PITI at 36% back (conventional)',fmt$(v.inc*.36-v.debt),'0.36 × income − other debts'],['Max PITI at 31/43 (FHA-style)',fmt$(Math.min(v.inc*.31,v.inc*.43-v.debt)),'lesser of the two limits']]}},
+};
+function parseTool(t){return t.f.map(([k,l,d])=>{let ty='num',opts=null,def=d;if(typeof d==='string'){if(d.startsWith('sel:')){ty='sel';opts=d.slice(4).split(',');def=opts[0]}else if(d.startsWith('date:')){ty='date';def=d.slice(5)}}return {k,l,ty,opts,def}})}
+function toolVals(id){const t=TOOLS[id];const f=parseTool(t);const saved=TV[id]||{};const v={};f.forEach(x=>{const s=saved[x.k];v[x.k]=x.ty==='num'?(s===undefined?x.def:s):(s===undefined?x.def:s)});return {f,v}}
+function toolNums(id,v){const t=TOOLS[id],f=parseTool(t),o={};f.forEach(x=>{o[x.k]=x.ty==='num'?(parseFloat(String(v[x.k]).replace(/[$,%\s,]/g,''))||0):v[x.k]});return o}
+function toolResult(id){const {v}=toolVals(id);return TOOLS[id].c(toolNums(id,v))}
+function resultHtml(rows){return rows.map(r=>`<div class="card" style="padding:10px 12px"><div class="row"><div class="grow"><div style="font-size:13px;color:var(--dim)">${esc(r[0])}</div><div class="sol" style="margin:2px 0 0;font-size:11px">${esc(r[2]||'')}</div></div><div style="font:600 18px var(--fm);color:var(--gold2);text-align:right">${esc(r[1])}</div></div></div>`).join('')}
+const SHEET=[
+ ['Percent & commission',['Part = Whole × Rate','Commission = price × rate','Net to seller = price − commission − payoff − costs','Price to net a target = (target + costs) ÷ (1 − commission rate)','Percent change = (new − old) ÷ old']],
+ ['Loans',['LTV = loan ÷ lesser of price or appraisal','Monthly interest = balance × annual rate ÷ 12','Points = loan × points ÷ 100','P&I = (loan ÷ 1,000) × payment factor','PITI = principal + interest + taxes + insurance','Front-end = PITI ÷ gross income; back-end = (PITI + debts) ÷ gross income','PMI generally required above 80% LTV; auto-terminates at 78%']],
+ ['Appraisal & investment',['Value = NOI ÷ cap rate','Cap rate = NOI ÷ value','NOI = EGI − operating expenses (not debt service)','EGI = PGI − vacancy & collection loss','GRM = price ÷ monthly gross rent','Cost approach = replacement cost − depreciation + land','DSCR = NOI ÷ annual debt service','Cash-on-cash = annual cash flow ÷ cash invested','Comp superior → subtract; comp inferior → add']],
+ ['Area & land',['1 acre = 43,560 sq ft','1 section = 640 acres = 1 sq mile; 1 township = 36 sections','1 mile = 5,280 ft; 1 sq yd = 9 sq ft; 1 cubic yd = 27 cu ft','Rectangle = L × W; triangle = ½ × base × height; circle = π r²','Section fractions: work from the END of the description backward']],
+ ['Prorations',['Daily rate = annual ÷ 360 (statutory) or ÷ 365 (calendar)','Taxes paid in arrears: seller owes buyer (credit buyer)','Prepaid items: buyer reimburses seller (credit seller)','Buyer normally owns the closing day (seller days = through the day before)']],
+ ['Mississippi property tax',['Class I 10% · Class II 15% · Class III 15% · Class IV 30% · Class V 30%','Assessed value = true value × ratio','Tax = assessed value × mills ÷ 1,000 (1 mill = $0.001)','Special homestead (65+/disabled): first $7,500 of assessed value exempt','Regular homestead credit capped at $300']],
+ ['Key numbers',['TRID: Loan Estimate 3 business days after application; Closing Disclosure 3 business days before closing','Rescission: 3 business days (refinance of primary residence)','Lead paint: pre-1978 housing; 10-day inspection window','Radon action level: 4 pCi/L','1031 exchange: identify 45 days, close 180 days','Depreciation: 27.5 years residential rental, 39 years commercial']],
+];
+function toolsTabs(){return `<div class="btns" style="margin:0 0 12px">${[['drills','Drills'],['calc','Calculator'],['tools','Tools'],['sheet','Formulas']].map(([k,l])=>`<button class="btn ${MT===k?'':'ghost'} sm" data-act="mtab" data-t="${k}">${l}</button>`).join('')}</div>`}
+function calcView(){
+ const keys=['C','(',')','⌫','7','8','9','÷','4','5','6','×','1','2','3','−','0','.','%','+'];
+ let h=`<p class="eyebrow">Practice</p><h1>Math & tools</h1>${toolsTabs()}<div class="card"><input class="num" id="cx" inputmode="none" value="${esc(CALC.expr)}" placeholder="0" autocomplete="off" style="font-size:22px"><div id="cout" style="font:600 26px var(--fm);color:var(--gold2);text-align:right;margin:8px 2px;min-height:34px">${esc(CALC.out)}</div>
+ <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">${keys.map(k=>`<button class="opt" style="margin:0;text-align:center;padding:14px 0;font-size:18px" data-act="ck" data-k="${k}">${k}</button>`).join('')}<button class="btn" style="grid-column:span 2;padding:14px" data-act="ck" data-k="^">xʸ</button><button class="btn" style="grid-column:span 2;padding:14px" data-act="ck" data-k="=">=</button></div></div>
+ <p class="sub" style="font-size:13px">Supports + − × ÷, parentheses, % (5% = 0.05), and powers (1.005^360). Percent tip: 6% of 240000 → type <b>240000×6%</b>.</p>`;
+ if(CALC.hist.length)h+=`<h3>History</h3>`+CALC.hist.slice(-6).reverse().map(x=>`<div class="card click" style="padding:8px 12px" data-act="hist" data-v="${esc(x[1])}"><span class="sub" style="margin:0">${esc(x[0])} = </span><b style="font-family:var(--fm)">${esc(x[1])}</b></div>`).join('');return h}
+function toolsView(){
+ const {f,v}=toolVals(TOOL);
+ let h=`<p class="eyebrow">Practice</p><h1>Math & tools</h1>${toolsTabs()}<div class="btns" style="margin-top:0">${Object.keys(TOOLS).map(k=>`<button class="btn ${TOOL===k?'':'ghost'} sm" data-act="tool" data-t="${k}">${esc(TOOLS[k].name)}</button>`).join('')}</div><div class="card">`;
+ f.forEach(x=>{h+=`<label style="display:block;font-size:12px;color:var(--dim);margin:8px 0 4px">${esc(x.l)}</label>`;
+  if(x.ty==='sel')h+=`<select class="num tin" data-k="${x.k}" style="font-size:15px">${x.opts.map(o=>`<option ${v[x.k]===o?'selected':''}>${esc(o)}</option>`).join('')}</select>`;
+  else if(x.ty==='date')h+=`<input class="num tin" type="date" data-k="${x.k}" value="${esc(v[x.k])}" style="font-size:16px">`;
+  else h+=`<input class="num tin" inputmode="decimal" data-k="${x.k}" value="${esc(v[x.k])}" style="font-size:16px">`});
+ h+=`</div><div id="tres">${resultHtml(toolResult(TOOL))}</div>`;return h}
+function sheetView(){
+ let h=`<p class="eyebrow">Reference</p><h1>Math & tools</h1>${toolsTabs()}`;
+ SHEET.forEach(([t,a])=>{h+=`<h3>${esc(t)}</h3><div class="card"><ul class="l" style="margin:0">${a.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`});return h}
+function mathView(){return MT==='calc'?calcView():MT==='tools'?toolsView():MT==='sheet'?sheetView():drillsView()}
+function calcPress(k){
+ if(k==='C'){CALC.expr='';CALC.out=''}
+ else if(k==='⌫'){CALC.expr=CALC.expr.slice(0,-1);CALC.out=''}
+ else if(k==='='){const r=calcEval(CALC.expr);CALC.out=calcShow(r);if(isFinite(r)){CALC.hist.push([CALC.expr,CALC.out]);CALC.expr=CALC.out}}
+ else{CALC.expr+=k;const r=calcEval(CALC.expr);CALC.out=isFinite(r)?calcShow(r):''}
+}
 
 /* ---------- Progress ---------- */
 function progressView(){
@@ -220,7 +307,7 @@ function render(){
   case 'unit':h=unitView(byId[V.u]);break;
   case 'lesson':h=lessonView(byId[V.u],V.i);break;
   case 'quiz':h=quizView();break;
-  case 'drills':h=drillsView();break;
+  case 'drills':h=mathView();break;
   case 'examhome':h=examHome();break;
   case 'progress':h=progressView();break;
  }
@@ -229,6 +316,11 @@ function render(){
 }
 document.addEventListener('click',e=>{
  const t=e.target.closest('[data-act]');if(!t)return;const a=t.dataset.act;
+ if(a==='mtab'){MT=t.dataset.t;if(MT==='drills'&&D&&D.res!==null)newDrill();render();return}
+ if(a==='ck'){calcPress(t.dataset.k);render();return}
+ if(a==='hist'){CALC.expr=t.dataset.v;CALC.out='';render();return}
+ if(a==='tool'){TOOL=t.dataset.t;render();return}
+
  if(a==='nav'){go({name:t.dataset.v});if(t.dataset.v==='drills'&&D&&D.res!==null)newDrill();return}
  if(a==='unit')return go({name:'unit',u:t.dataset.u});
  if(a==='lesson')return go({name:'lesson',u:t.dataset.u,i:+t.dataset.i});
@@ -248,7 +340,13 @@ document.addEventListener('click',e=>{
  if(a==='drilltype'){newDrill(t.dataset.t);render();return}
  if(a==='reset'){if(confirm('Erase all progress in this browser?')){S={done:{},quiz:{},missed:{},exams:[],drill:{}};save();go({name:'home'})}return}
 });
-document.addEventListener('keydown',e=>{if(e.key==='Enter'&&V.name==='drills'&&D&&D.res===null){const b=document.querySelector('[data-act=grade]');if(b)b.click()}});
+document.addEventListener('input',e=>{
+ const el=e.target;
+ if(el.classList&&el.classList.contains('tin')){(TV[TOOL]=TV[TOOL]||{})[el.dataset.k]=el.value;const r=$('#tres');if(r)r.innerHTML=resultHtml(toolResult(TOOL));return}
+ if(el.id==='cx'){CALC.expr=el.value;const r=calcEval(CALC.expr);CALC.out=isFinite(r)?calcShow(r):'';const o=$('#cout');if(o)o.textContent=CALC.out}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&V.name==='drills'&&MT==='calc'){calcPress('=');render();return}
+ if(e.key==='Enter'&&V.name==='drills'&&MT==='drills'&&D&&D.res===null){const b=document.querySelector('[data-act=grade]');if(b)b.click()}});
 render();
 if('serviceWorker' in navigator&&location.protocol.startsWith('http')){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{})})}
 </script>
