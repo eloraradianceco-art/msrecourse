@@ -28,7 +28,12 @@ sources=[
  ("Kin Insurance: Mississippi Windstorm Underwriting Association eligibility (secondary; verify with MWUA)","https://www.kin.com/blog/mississippi-windstorm-mwua-eligibility/"),
 ]
 data=dict(units=units,nq=nq,sources=sources,disclaimer="Study aid only. Not legal advice and not an official MREC or PSI publication. Verify current law, forms, fees and exam rules with the Mississippi Real Estate Commission (mrec.ms.gov) and the current PSI candidate bulletin.")
+import base64
+def _ff(fam,file,w,style='normal'):
+    d=base64.b64encode(open(os.path.join(HERE,'fonts',file),'rb').read()).decode()
+    return "@font-face{font-family:'%s';font-style:%s;font-weight:%s;font-display:swap;src:url(data:font/woff2;base64,%s) format('woff2')}"%(fam,style,w,d)
+FONTS=''.join([_ff('Big Shoulders Display','bsd-600.woff2','600'),_ff('Big Shoulders Display','bsd-800.woff2','800'),_ff('Source Serif 4','ss4-normal.woff2','200 900'),_ff('Source Serif 4','ss4-italic.woff2','200 900','italic'),_ff('JetBrains Mono','jbm-400.woff2','400'),_ff('JetBrains Mono','jbm-500.woff2','500')])
 html=open(os.path.join(HERE,'template.html')).read()
-out=html.replace('__DATA_JSON__',json.dumps(data,ensure_ascii=False).replace('</','<\\/'))
+out=html.replace('__FONTS_CSS__',FONTS).replace('__DATA_JSON__',json.dumps(data,ensure_ascii=False).replace('</','<\\/'))
 open(os.path.join(HERE,'..','index.html'),'w').write(out)
 print('units',len(units),'lessons',sum(len(u['lessons']) for u in units),'questions',nq,'bytes',len(out))

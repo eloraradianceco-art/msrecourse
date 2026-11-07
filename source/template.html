@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mississippi Real Estate Course</title>
-<meta name="theme-color" content="#0e120f">
+<meta name="theme-color" content="#0b1a28">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -12,60 +12,143 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style id="fonts">__FONTS_CSS__</style>
 <style>
-:root{--bg:#0e120f;--panel:#161d18;--panel2:#1b241d;--hover:#202a22;--text:#ece5d3;--dim:#9aa393;--faint:#6b7367;--gold:#b98b3e;--gold2:#d9a94f;--border:#2a332b;--good:#5a9c6e;--bad:#c0604a;--warn:#c9a24a;--fd:'Fraunces',serif;--fb:'Inter',sans-serif;--fm:'IBM Plex Mono',monospace}
+:root{
+ --ink:#0b1a28;--plan:#102a40;--plan2:#143450;--hover:#19405f;
+ --chalk:#eaf2f5;--dim:#9bb2c1;--faint:#6a8396;--line:#2b516f;
+ --cyan:#6fc3df;--pencil:#f6c61a;--lumber:#d9a441;--hazard:#ff7a2f;--pass:#5fd49a;--code:#07131e;
+ --fd:'Big Shoulders Display','Arial Narrow','Helvetica Neue',sans-serif;
+ --fb:'Source Serif 4',Georgia,'Times New Roman',serif;
+ --fm:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+ --bad:var(--hazard);--good:var(--pass);--warn:var(--hazard);--gold:var(--pencil);--gold2:var(--pencil);--border:var(--line);--text:var(--chalk);--panel:var(--plan);--panel2:var(--plan2)}
 *{box-sizing:border-box}html,body{margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:var(--fb);-webkit-font-smoothing:antialiased;padding-bottom:70px;line-height:1.55}
-.wrap{max-width:720px;margin:0 auto;padding:calc(22px + env(safe-area-inset-top)) 16px 0}
-.eyebrow{font-family:var(--fm);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;margin:0 0 6px}
-h1{font-family:var(--fd);font-weight:600;font-size:28px;line-height:1.15;margin:0 0 6px}
-h2{font-family:var(--fd);font-weight:600;font-size:21px;margin:22px 0 8px}
-h3{font-family:var(--fd);font-weight:600;font-size:17px;margin:18px 0 6px;color:var(--gold2)}
-p{margin:0 0 12px;font-size:15px}
-.sub{color:var(--dim);font-size:14px;margin:0 0 18px}
-.nav{padding-bottom:env(safe-area-inset-bottom);position:fixed;bottom:0;left:0;right:0;background:#0b0f0c;border-top:1px solid var(--border);display:flex;justify-content:space-around;z-index:5}
-.nav button{flex:1;background:none;border:0;color:var(--dim);padding:12px 4px;font:500 12px var(--fb);cursor:pointer}
-.nav button.on{color:var(--gold2);border-top:2px solid var(--gold2);margin-top:-1px}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:14px;margin:0 0 10px}
-.card.click{cursor:pointer}.card.click:hover{background:var(--hover)}
-.row{display:flex;gap:12px;align-items:center}.grow{flex:1;min-width:0}
-.tag{font-family:var(--fm);font-size:10px;letter-spacing:.12em;color:var(--faint);text-transform:uppercase}
-.bar{height:6px;background:#0b0f0c;border-radius:3px;overflow:hidden;border:1px solid var(--border)}
-.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2))}
-.btn{background:var(--gold);color:#12150f;border:0;border-radius:4px;padding:11px 16px;font:600 14px var(--fb);cursor:pointer}
-.btn.ghost{background:none;color:var(--gold2);border:1px solid var(--gold)}
-.btn.sm{padding:7px 11px;font-size:12px}
+body{background-color:var(--ink);
+ background-image:linear-gradient(rgba(111,195,223,.075) 1px,transparent 1px),linear-gradient(90deg,rgba(111,195,223,.075) 1px,transparent 1px),linear-gradient(rgba(111,195,223,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(111,195,223,.04) 1px,transparent 1px);
+ background-size:96px 96px,96px 96px,24px 24px,24px 24px;
+ color:var(--chalk);font-family:var(--fb);-webkit-font-smoothing:antialiased;padding-bottom:84px;line-height:1.65;-webkit-text-size-adjust:100%}
+.wrap{max-width:720px;margin:0 auto;padding:calc(22px + env(safe-area-inset-top)) 18px 0}
+:focus-visible{outline:2px solid var(--pencil);outline-offset:2px}
+.eyebrow{font:600 17px var(--fd);letter-spacing:.03em;color:var(--cyan);margin:0 0 2px}
+h1{font:800 clamp(40px,11vw,56px)/.95 var(--fd);letter-spacing:.005em;margin:0 0 10px;text-wrap:balance}
+h2{font:800 31px/1 var(--fd);letter-spacing:.005em;margin:34px 0 10px}
+h3{font:800 23px/1.05 var(--fd);margin:26px 0 8px;color:var(--cyan)}
+h4{font:800 19px var(--fd);margin:18px 0 4px}
+p{margin:0 0 14px;font-size:17px}
+.sub{color:var(--dim);font-size:16px;margin:0 0 18px}
+strong,b{font-weight:600}
+code{font-family:var(--fm);font-size:.84em;background:rgba(7,19,30,.85);border:1px solid var(--line);border-radius:2px;padding:1px 5px;color:#ffe08a}
+a{color:var(--pencil);text-underline-offset:3px}
+/* nav */
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(7,19,30,.95);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-top:1px solid var(--line);display:flex;justify-content:space-around;z-index:5;padding-bottom:env(safe-area-inset-bottom)}
+.nav button{flex:1;position:relative;background:none;border:0;color:var(--faint);padding:9px 2px 8px;font:600 14px var(--fd);letter-spacing:.04em;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:square;stroke-linejoin:miter}
+.nav button.on{color:var(--pencil)}
+.nav button.on::before{content:'';position:absolute;top:-1px;left:50%;width:30px;margin-left:-15px;height:3px;background:var(--pencil)}
+/* surfaces */
+.card{background:var(--plan);border:1px solid var(--line);border-radius:2px;padding:14px 16px;margin:0 0 10px}
+.card.click{cursor:pointer;transition:background .15s,border-color .15s}.card.click:hover{background:var(--plan2);border-color:var(--cyan)}
+.row{display:flex;gap:14px;align-items:center}.grow{flex:1;min-width:0}
+.tag{font:600 15px var(--fd);letter-spacing:.03em;color:var(--cyan)}
+.bar{height:8px;background:rgba(7,19,30,.9);border:1px solid var(--line);position:relative;overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--lumber)}
+.bar::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 11px,rgba(11,26,40,.7) 11px 12px);pointer-events:none}
+/* buttons: steel plate (chamfered) for the main action, outline for the rest */
+.btn{background:var(--pencil);color:#1b1500;border:0;padding:11px 20px;font:800 17px var(--fd);letter-spacing:.05em;cursor:pointer;clip-path:polygon(9px 0,100% 0,100% calc(100% - 9px),calc(100% - 9px) 100%,0 100%,0 9px);transition:transform .1s,filter .15s}
+.btn:hover{filter:brightness(1.07)}.btn:active{transform:translateY(1px)}
+.btn.ghost{background:transparent;color:var(--chalk);clip-path:none;border-radius:2px;box-shadow:inset 0 0 0 1.5px var(--line);padding:11px 16px}
+.btn.ghost:hover{box-shadow:inset 0 0 0 1.5px var(--cyan);filter:none}
+.btn.sm{padding:8px 14px;font-size:15px}.btn.sm.ghost{padding:8px 12px}
 .btn:disabled{opacity:.4;cursor:default}
-.btns{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
-.back{background:none;border:0;color:var(--dim);font:500 13px var(--fb);cursor:pointer;padding:0;margin-bottom:12px}
-ul.l{margin:0 0 12px;padding-left:20px;font-size:15px}ul.l li{margin:4px 0}
-.callout{border-left:3px solid var(--gold);background:var(--panel2);padding:10px 12px;border-radius:0 4px 4px 0;margin:12px 0;font-size:14px}
-.callout.key{border-color:var(--good)}.callout.ex{border-color:#6a8fb5}.callout.warn{border-color:var(--warn)}
-.callout b.h{display:block;font-family:var(--fm);font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px;color:var(--dim)}
-.opt{display:block;width:100%;text-align:left;background:var(--panel);border:1px solid var(--border);color:var(--text);padding:12px;border-radius:5px;margin:7px 0;font:400 15px var(--fb);cursor:pointer}
-.opt:hover{background:var(--hover)}.opt.sel{border-color:var(--gold2)}
-.opt.ok{border-color:var(--good);background:#16261b}.opt.no{border-color:var(--bad);background:#2a1a16}
-input.num{width:100%;background:#0b0f0c;border:1px solid var(--border);color:var(--text);padding:12px;border-radius:5px;font:500 18px var(--fm)}
-.pill{display:inline-block;font:500 11px var(--fm);padding:2px 8px;border-radius:10px;border:1px solid var(--border);color:var(--dim)}
-.pill.g{color:var(--good);border-color:var(--good)}.pill.b{color:var(--bad);border-color:var(--bad)}
-.stat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
-.stat div{background:var(--panel);border:1px solid var(--border);border-radius:5px;padding:10px;text-align:center}
-.stat b{display:block;font:600 22px var(--fd);color:var(--gold2)}.stat span{font-size:11px;color:var(--dim)}
-.foot{font-size:12px;color:var(--faint);margin-top:26px;border-top:1px solid var(--border);padding-top:12px}
-.sol{font:400 13px var(--fm);color:var(--dim);white-space:pre-wrap;margin-top:8px}
-a{color:var(--gold2)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.back{background:none;border:0;color:var(--dim);font:600 16px var(--fd);letter-spacing:.03em;cursor:pointer;padding:0;margin-bottom:14px}
+.back:hover{color:var(--chalk)}
+ul.l{margin:0 0 14px;padding-left:20px;font-size:17px}ul.l li{margin:5px 0}
+/* notes pinned with masking tape; cautions get hazard striping */
+.callout{position:relative;background:var(--plan);border:1px solid var(--line);border-left:4px solid var(--cyan);padding:14px 16px 10px;margin:20px 0 16px;border-radius:0 2px 2px 0}
+.callout::before{content:'';position:absolute;top:-8px;left:14px;width:46px;height:15px;background:rgba(246,198,26,.55);transform:rotate(-2deg)}
+.callout.key{border-left-color:var(--pencil)}
+.callout.warn{border-left-color:transparent}
+.callout.warn::after{content:'';position:absolute;left:-4px;top:-1px;bottom:-1px;width:4px;background:repeating-linear-gradient(135deg,var(--hazard) 0 5px,#2a1608 5px 10px)}
+.callout.warn::before{background:rgba(255,122,47,.5)}
+.callout p{font-size:16px;margin:0 0 8px}.callout p:last-child{margin:0 0 4px}
+/* quiz */
+.opt{display:block;width:100%;text-align:left;background:var(--plan);border:1.5px solid var(--line);color:var(--chalk);padding:13px 14px;border-radius:2px;margin:8px 0;font:400 17px var(--fb);cursor:pointer;transition:border-color .12s,background .12s}
+.opt.mono{font-family:var(--fm);font-size:14px;white-space:pre-wrap}
+.opt:hover{background:var(--plan2);border-color:var(--cyan)}.opt.sel{border-color:var(--pencil);background:var(--plan2)}
+.opt.ok{border-color:var(--pass);background:rgba(95,212,154,.12)}.opt.no{border-color:var(--hazard);background:rgba(255,122,47,.12)}
+.pill{display:inline-block;font:600 15px var(--fd);letter-spacing:.03em;padding:0 9px;border:1.5px solid var(--line);color:var(--dim);white-space:nowrap;border-radius:2px}
+.pill.g{color:var(--pass);border-color:var(--pass)}.pill.b{color:var(--hazard);border-color:var(--hazard)}
+.stat{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.stat div{background:var(--plan);border:1px solid var(--line);padding:10px 10px 12px;border-top:6px solid var(--lumber)}
+.stat b{display:block;font:800 40px/1 var(--fd);color:var(--pencil)}.stat span{font:600 15px var(--fd);letter-spacing:.03em;color:var(--dim)}
+.foot{font-size:14px;color:var(--faint);margin-top:30px;border-top:1px solid var(--line);padding-top:14px}
+.verse{font-style:italic;color:var(--dim);font-size:16px;margin:0 0 6px}
+
+/* real estate additions */
+.callout b.h{display:block;font:800 19px/1 var(--fd);letter-spacing:.03em;color:var(--cyan);margin:0 0 6px}
+.callout.warn b.h{color:var(--hazard)}.callout.key b.h{color:var(--pencil)}
+input.num,select.num{width:100%;background:var(--code);border:1px solid var(--line);border-top:3px solid var(--cyan);color:var(--chalk);padding:11px 12px;border-radius:2px;font:500 20px var(--fm)}
+select.num{font-size:15px;appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--cyan) 50%),linear-gradient(135deg,var(--cyan) 50%,transparent 50%);background-position:calc(100% - 18px) 50%,calc(100% - 12px) 50%;background-size:6px 6px;background-repeat:no-repeat;padding-right:32px}
+input.num:focus,select.num:focus{outline:2px solid var(--pencil);outline-offset:0;border-color:var(--pencil)}
+.sol{font:400 14px/1.5 var(--fm);color:var(--dim);white-space:pre-wrap;margin-top:8px}
+.stat b{font-size:34px}
+.card .row .grow{font-family:var(--fd);font-weight:800;font-size:22px;line-height:1.1}
+.card .grow .sub,.card .grow .tag{font-family:var(--fb)}
+.eyebrow{font-weight:600}
+.house .built rect.f{fill:#173f5e;stroke:var(--lumber);stroke-width:3}
+.card p .pill{white-space:normal;max-width:100%}
+.house .built .sold{opacity:0;transition:opacity .8s 1.2s}
+.house.done .built .sold{opacity:1}
+.house .built .sign{fill:var(--pencil);stroke:var(--lumber);stroke-width:2}
+.house .built text.sold{font:800 15px var(--fd);letter-spacing:.06em;fill:#1b1500;font-style:normal}
+.stamp{display:inline-block;font:800 22px var(--fd);letter-spacing:.1em;text-transform:uppercase;color:var(--pass);border:3px solid var(--pass);padding:0 10px;border-radius:3px;transform:rotate(-5deg);background:rgba(11,26,40,.55)}
+.stamp.bad{color:var(--hazard);border-color:var(--hazard)}
+.stamp.pop{animation:thud .38s cubic-bezier(.2,1.4,.4,1)}
+@keyframes thud{0%{transform:rotate(-5deg) scale(2.1);opacity:0}70%{transform:rotate(-5deg) scale(.94);opacity:1}100%{transform:rotate(-5deg) scale(1)}}
+.hero h1{font-size:clamp(46px,14vw,72px)}
+.hero .sub{max-width:40ch}
+/* home */
+.hero h1{font-size:clamp(54px,17vw,88px);margin:0}
+.hero .sub{max-width:34ch;margin:8px 0 6px;font-size:18px}
+.house{display:block;width:100%;height:auto;margin:4px 0 6px;overflow:visible}
+.house .plan *{fill:none;stroke:var(--cyan);stroke-width:1;stroke-dasharray:3 4;opacity:.6}
+.house .built line,.house .built polyline,.house .built rect.f{stroke:var(--lumber);stroke-width:3;stroke-linecap:square;fill:none}
+.house .built rect.slab{fill:#52697c;stroke:none}
+.house .built rect.open{fill:var(--ink);stroke:var(--lumber);stroke-width:3}
+.house .built .lit{fill:var(--pencil);opacity:0;transition:opacity 1.2s .8s}
+.house.done .built .lit{opacity:.9}
+.house .built .siding{fill:#173f5e;stroke:none;opacity:0;transition:opacity 1.2s}
+.house.done .built .siding{opacity:1}
+#reveal-rect{transition:transform 2.2s cubic-bezier(.22,.7,.2,1)}
+.house text{font:italic 400 14px var(--fb);fill:var(--dim)}
+.house .dim{stroke:var(--cyan);stroke-width:1;opacity:.75}
+.next{display:flex;gap:14px;align-items:center;background:var(--plan);border:1px solid var(--line);border-left:6px solid var(--pencil);padding:14px 16px;margin:12px 0 6px}
+.next .k{font:600 16px var(--fd);letter-spacing:.03em;color:var(--cyan)}
+.next .t{font:800 24px/1.05 var(--fd)}
+.stagehd{margin:38px 0 2px}
+.stagenote{color:var(--dim);font-size:16px;margin:0 0 14px;max-width:44ch}
+.unitrow{position:relative;display:grid;grid-template-columns:44px 1fr;gap:14px;padding:6px 8px 14px 0;cursor:pointer}
+.unitrow:not(.last)::before{content:'';position:absolute;left:21px;top:50px;bottom:-4px;width:2px;background:repeating-linear-gradient(to bottom,var(--line) 0 6px,transparent 6px 16px)}
+.unitrow .node{position:relative;width:44px;height:44px;border:1.5px solid var(--cyan);background:var(--plan);display:grid;place-items:center;font:800 24px var(--fd);overflow:hidden}
+.unitrow .node i{position:absolute;left:0;right:0;bottom:0;background:rgba(217,164,65,.62)}
+.unitrow .node span{position:relative;text-shadow:0 1px 3px rgba(7,19,30,.9)}
+.unitrow.full .node{border-color:var(--lumber)}.unitrow.full .node i{background:var(--lumber)}.unitrow.full .node span{color:#1b1500;text-shadow:none}
+.unitrow:hover .ut{color:var(--pencil)}
+.unitrow .ut{font:800 25px/1.05 var(--fd);letter-spacing:.005em;transition:color .15s}
+.unitrow .us{font-size:15px;color:var(--faint);margin-top:2px;line-height:1.35}
+
+@media (prefers-reduced-motion:reduce){#reveal-rect,.house .built .lit,.house .built .sold{transition:none}.stamp.pop{animation:none}.btn,.card.click,.opt{transition:none}}
+code,.sym,.opt.mono{font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0}
 </style>
 </head>
 <body>
 <div class="wrap" id="app"></div>
 <div class="nav" id="nav">
- <button data-act="nav" data-v="home">Course</button>
- <button data-act="nav" data-v="drills">Math & tools</button>
- <button data-act="nav" data-v="examhome">Exam</button>
- <button data-act="nav" data-v="progress">Progress</button>
+ <button data-act="nav" data-v="home"><svg viewBox="0 0 24 24"><path d="M3 11 12 3l9 8M5 9.5V21h14V9.5M10 21v-6h4v6"/></svg>Course</button>
+ <button data-act="nav" data-v="drills"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18"/><path d="M8 7h8M8 12h2M12 12h2M8 16h2M12 16h2M16 12v4"/></svg>Math</button>
+ <button data-act="nav" data-v="examhome"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13l2 2 4-4"/></svg>Exam</button>
+ <button data-act="nav" data-v="progress"><svg viewBox="0 0 24 24"><path d="M3 20h18M6 20v-6M11 20V9M16 20v-9M21 20V4"/></svg>Progress</button>
 </div>
 <script>
 const DATA = __DATA_JSON__;
@@ -86,21 +169,41 @@ let V={name:'home'};
 function go(v){V=v;render();window.scrollTo(0,0)}
 function nextLesson(){for(const u of U){const d=S.done[u.id]||[];for(let i=0;i<u.lessons.length;i++)if(!d.includes(i))return {u:u.id,i}}return null}
 
+
+let houseAnimated=false;
+function streetSvg(pct,td,tl){
+ const B=(x,y,w,h)=>`<rect class="f" x="${x}" y="${y}" width="${w}" height="${h}"/>`,W=(x,y,w,h)=>`<rect class="open" x="${x}" y="${y}" width="${w}" height="${h}"/>`;
+ const shapes=`<line x1="8" y1="168" x2="352" y2="168"/>${B(24,106,96,62)}<polyline points="14,106 72,64 130,106 14,106"/>${W(34,118,20,18)}${W(58,136,26,32)}${W(92,118,20,18)}
+  ${B(142,82,100,86)}<polyline points="132,82 192,42 252,82 132,82"/>${W(154,94,20,18)}${W(210,94,20,18)}${W(154,124,20,18)}${W(214,124,26,44)}${B(224,52,14,26)}
+  ${B(266,114,76,54)}<polyline points="258,114 304,82 350,114 258,114"/>${W(276,126,18,16)}${W(310,126,22,42)}`;
+ const ty=Math.round(194-170*pct/100);
+ const label=`${td} of ${tl} lessons complete`;
+ return `<svg class="house${pct>=100?' done':''}" viewBox="0 20 360 210" role="img" aria-label="Line drawing of a street of three houses that fills in from the ground up as you finish lessons. ${label}.">
+  <defs><clipPath id="reveal"><rect id="reveal-rect" data-t="${ty}" x="0" y="0" width="360" height="232" style="transform:translateY(200px)"/></clipPath></defs>
+  <g class="plan">${shapes}</g>
+  <g class="built" clip-path="url(#reveal)"><rect class="slab" x="0" y="168" width="360" height="12"/>${shapes}
+   <rect class="lit" x="36" y="120" width="16" height="14"/><rect class="lit" x="94" y="120" width="16" height="14"/><rect class="lit" x="156" y="96" width="16" height="14"/><rect class="lit" x="212" y="96" width="16" height="14"/><rect class="lit" x="278" y="128" width="14" height="12"/>
+   <g class="sold"><line x1="196" y1="168" x2="196" y2="132"/><rect class="sign" x="170" y="120" width="52" height="20"/><text class="sold" x="196" y="135" text-anchor="middle">SOLD</text></g></g>
+  <line class="dim" x1="8" y1="209" x2="${180-Math.round(label.length*3.5)-8}" y2="209"/><line class="dim" x1="${180+Math.round(label.length*3.5)+8}" y1="209" x2="352" y2="209"/><line class="dim" x1="8" y1="203" x2="8" y2="215"/><line class="dim" x1="352" y1="203" x2="352" y2="215"/>
+  <text x="180" y="213" text-anchor="middle">${label}</text></svg>`}
+function raiseHouse(){
+ const r=document.getElementById('reveal-rect');if(!r)return;const t=r.dataset.t;
+ if(houseAnimated){r.style.transition='none';r.style.transform=`translateY(${t}px)`;return}
+ houseAnimated=true;requestAnimationFrame(()=>requestAnimationFrame(()=>{r.style.transform=`translateY(${t}px)`}))}
+
 /* ---------- Views ---------- */
 function home(){
  const td=totalDone(),tl=totalLessons(),pct=Math.round(100*td/tl),nx=nextLesson();
- let h=`<p class="eyebrow">Self-study course</p><h1>Mississippi Real Estate Course</h1>
- <p class="sub">Salesperson pre-licensing prep: ${U.length} units, ${tl} lessons, ${DATA.nq} practice questions, math drills and a 120-question exam simulator.</p>
- <div class="card"><div class="row"><div class="grow"><div class="tag">Course progress</div><div class="bar" style="margin:6px 0"><i style="width:${pct}%"></i></div><span class="sub" style="margin:0">${td} of ${tl} lessons complete (${pct}%)</span></div>
- ${nx?`<button class="btn" data-act="lesson" data-u="${nx.u}" data-i="${nx.i}">${td?'Continue':'Start'}</button>`:'<span class="pill g">Course complete</span>'}</div></div>
+ let h=`<header class="hero"><h1>Mississippi real estate</h1><p class="sub">Salesperson pre-licensing prep: ${U.length} units, ${tl} lessons, ${DATA.nq} practice questions, math drills and a 120-question exam simulator.</p>${streetSvg(pct,td,tl)}</header>
+ ${nx?`<div class="next"><div class="grow"><div class="k">${td?'Next up':'Start here'}</div><div class="t">${esc(byId[nx.u].lessons[nx.i].title)}</div></div><button class="btn" data-act="lesson" data-u="${nx.u}" data-i="${nx.i}">${td?'Continue':'Start'}</button></div>`:'<div class="next"><div class="grow"><div class="t">Every lesson is done.</div></div><span class="pill g">Course complete</span></div>'}
  <div class="callout warn"><b class="h">Read this first</b>This is a study aid built from the Mississippi license law (rev. July 1, 2026), MREC forms and rules, and standard national real estate principles. It is not legal advice or an official source. Rules and exam formats change. Confirm against MREC (mrec.ms.gov) and the current PSI candidate bulletin before you rely on anything here.</div>`;
- for(const part of ['National','Mississippi']){
-  h+=`<h2>${part==='National'?'Part 1: National principles':'Part 2: Mississippi law & Gulf Coast'}</h2>`;
-  U.filter(u=>u.part===part).forEach(u=>{
-   const q=S.quiz[u.id];const d=doneCount(u);
-   h+=`<div class="card click" data-act="unit" data-u="${u.id}"><div class="row"><div class="grow"><div class="tag">Unit ${u.id}</div><div style="font-family:var(--fd);font-size:17px;font-weight:600">${esc(u.title)}</div>
-   <div class="bar" style="margin:8px 0 4px"><i style="width:${Math.round(100*d/u.lessons.length)}%"></i></div>
-   <span class="sub" style="margin:0;font-size:12px">${d}/${u.lessons.length} lessons${q?` · best quiz ${q.best}%`:''}</span></div></div></div>`})}
+ const parts=[['National','Part 1: National principles','The principles every state tests: property, contracts, finance, agency and math.'],['Mississippi','Part 2: Mississippi law and Gulf Coast','State license law, MREC rules, disclosures and coastal issues.']];
+ for(const [part,title,note] of parts){
+  h+=`<div class="stagehd"><h2 style="margin:0">${title}</h2></div><p class="stagenote">${note}</p>`;
+  const us=U.filter(u=>u.part===part);
+  us.forEach((u,i)=>{
+   const q=S.quiz[u.id];const d=doneCount(u);const f=Math.round(100*d/u.lessons.length);
+   h+=`<div class="unitrow${f===100?' full':''}${i===us.length-1?' last':''}" data-act="unit" data-u="${u.id}"><div class="node"><i style="height:${f}%"></i><span>${esc(u.id)}</span></div><div><div class="ut">${esc(u.title)}</div><div class="us">${d} of ${u.lessons.length} lessons${q?`, best quiz ${q.best}%`:''}</div></div></div>`})}
  h+=`<div class="foot">Progress saves in this browser only. Sources are listed under the Progress tab.</div>`;return h}
 
 function unitView(u){
@@ -127,7 +230,7 @@ function quizView(){
  if(Q.i>=Q.qs.length)return quizResult();
  const q=Q.qs[Q.i];const exam=Q.kind==='exam';
  let h=`<button class="back" data-act="quitquiz">← Exit</button><p class="eyebrow">${esc(Q.meta.title||'Quiz')} · ${Q.i+1}/${Q.qs.length}</p><div class="bar"><i style="width:${Math.round(100*Q.i/Q.qs.length)}%"></i></div>
- <h2 style="margin-top:16px;font-size:18px">${inline(q.q)}</h2>`;
+ <p style="margin:18px 0 8px;font:500 20px/1.45 var(--fb)">${inline(q.q)}</p>`;
  q.o.forEach((o,k)=>{let c='opt';if(Q.locked&&!exam){if(k===q.a)c+=' ok';else if(k===Q.sel)c+=' no'}else if(k===Q.sel)c+=' sel';
   h+=`<button class="${c}" data-act="pick" data-k="${k}">${String.fromCharCode(65+k)}. ${esc(o)}</button>`});
  if(Q.locked&&!exam){const ok=Q.sel===q.a;h+=`<div class="callout ${ok?'key':'warn'}"><b class="h">${ok?'Correct':'Not quite'}</b>${inline(q.why)}</div>`}
@@ -143,13 +246,13 @@ function quizResult(){
   const sc=a=>a.filter(([q,x])=>x===q.a).length;const np=Math.round(100*sc(nat)/nat.length),sp=Math.round(100*sc(st)/st.length);
   const np_ok=np>=70,sp_ok=sp>=75;
   if(!Q.saved){S.exams.push({d:Date.now(),nat:np,st:sp,nn:nat.length,sn:st.length});Q.qs.forEach((q,i)=>{if(Q.ans[i]!==q.a)S.missed[q.id]=1;else delete S.missed[q.id]});save();Q.saved=1}
-  h+=`<p class="eyebrow">Exam simulator result</p><h1>${np_ok&&sp_ok?'Passing score':'Below passing'}</h1>
+  h+=`<p class="eyebrow">Exam simulator result</p><div class="stamp pop${np_ok&&sp_ok?'':' bad'}">${np_ok&&sp_ok?'Passing':'Below the line'}</div><h1 style="margin-top:14px">${np_ok&&sp_ok?'Passing score':'Below passing'}</h1>
   <div class="stat"><div><b>${np}%</b><span>National (${nat.length} Qs)<br>pass line 70%</span></div><div><b>${sp}%</b><span>Mississippi (${st.length} Qs)<br>pass line 75%</span></div><div><b>${np_ok&&sp_ok?'✓':'✗'}</b><span>Overall</span></div></div>
   <p class="sub">Both portions must pass. Your practice bank is smaller than the real exam, so treat this as a readiness check, not a prediction.</p>`}
  else{
   const c=Q.qs.filter((q,i)=>Q.ans[i]===q.a).length;const pct=Math.round(100*c/n);
   if(!Q.saved){if(Q.meta.unit){const r=S.quiz[Q.meta.unit]||{best:0,n:0};r.best=Math.max(r.best,pct);r.last=pct;r.n++;S.quiz[Q.meta.unit]=r}Q.qs.forEach((q,i)=>{if(Q.ans[i]!==q.a)S.missed[q.id]=1;else delete S.missed[q.id]});save();Q.saved=1}
-  h+=`<p class="eyebrow">${esc(Q.meta.title||'Quiz')} result</p><h1>${c} / ${n} (${pct}%)</h1><p class="sub">${pct>=85?'Strong. Move on and revisit in a few days.':pct>=70?'Passing, but review the misses below before moving on.':'Re-read the lessons for this unit, then retake the quiz.'}</p>`}
+  h+=`<p class="eyebrow">${esc(Q.meta.title||'Quiz')} result</p>${pct>=70?'<div class="stamp pop">Passed</div>':''}<h1 style="margin-top:14px">${c} / ${n} (${pct}%)</h1><p class="sub">${pct>=85?'Strong. Move on and revisit in a few days.':pct>=70?'Passing, but review the misses below before moving on.':'Re-read the lessons for this unit, then retake the quiz.'}</p>`}
  const miss=Q.qs.map((q,i)=>[q,i]).filter(([q,i])=>Q.ans[i]!==q.a);
  if(miss.length){h+=`<h2>Review misses (${miss.length})</h2>`;miss.forEach(([q,i])=>{h+=`<div class="card"><div class="tag">${esc(q.id)}</div><p style="margin:4px 0">${inline(q.q)}</p><p style="margin:0;font-size:13px"><span class="pill b">You: ${Q.ans[i]===null||Q.ans[i]===undefined?'—':esc(q.o[Q.ans[i]])}</span> <span class="pill g">Correct: ${esc(q.o[q.a])}</span></p><p class="sub" style="margin:6px 0 0;font-size:13px">${inline(q.why)}</p></div>`})}
  return h+`<div class="btns"><button class="btn" data-act="nav" data-v="home">Back to course</button><button class="btn ghost" data-act="nav" data-v="examhome">Exam menu</button></div>`}
@@ -311,7 +414,7 @@ function render(){
   case 'examhome':h=examHome();break;
   case 'progress':h=progressView();break;
  }
- $('#app').innerHTML=h;
+ $('#app').innerHTML=h;if(V.name==='home')raiseHouse();
  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',(b.dataset.v==='home'&&['home','unit','lesson'].includes(V.name))||b.dataset.v===V.name||(b.dataset.v==='examhome'&&V.name==='quiz'&&Q&&Q.kind!=='unit')));
 }
 document.addEventListener('click',e=>{
